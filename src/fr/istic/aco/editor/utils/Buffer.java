@@ -6,6 +6,7 @@ public class Buffer {
 
     public Buffer(int id) {
         this.id = id;
+        this.text = "";
     }
 
     public String getText() {
