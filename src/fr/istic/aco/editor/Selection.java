@@ -56,5 +56,23 @@ public interface Selection {
      */
     void setEndIndex(int endIndex);
 
+    /**
+     * Changes the value of the end index of the selection
+     *
+     * @param endIndex, must be within the buffer index range
+     * @throws IndexOutOfBoundsException if the beginIndex is out of bounds
+     */
+    void setBufferId(int bufferId);
+
+    /**
+     * Changes the value of the end index of the selection
+     *
+     * @param endIndex, must be within the buffer index range
+     * @throws IndexOutOfBoundsException if the beginIndex is out of bounds
+     */
+    int getBufferId();
+
+
+
 
 }
