@@ -15,14 +15,18 @@ public class EngineImpl implements Engine {
     private Clipboard clipboard;
 
     public EngineImpl(){
-        buffer = new Buffer(0);
+     
+    	buffer = new Buffer(0);
         selection = new SelectionImpl(buffer.getId());
         clipboard = new Clipboard();
+    
     }
 
     @Override
     public Selection getSelection() {
-        return selection;
+     
+    	return selection;
+    
     }
 
     /**
@@ -34,6 +38,7 @@ public class EngineImpl implements Engine {
     public String getBufferContents() {
 
         return buffer.getText();
+    
     }
 
     /**
@@ -45,6 +50,7 @@ public class EngineImpl implements Engine {
     public String getClipboardContents() {
 
         return clipboard.getText();
+    
     }
 
     /**
@@ -53,14 +59,24 @@ public class EngineImpl implements Engine {
      * from the buffer.
      */
     @Override
-    public void cutSelectedText() {
-        int start = selection.getBeginIndex();
+    public void cutSelectedText() throws IndexOutOfBoundsException{
+        
+    	int start = selection.getBeginIndex();
         int stop = selection.getEndIndex();
         String text = buffer.getText();
+        
+        if(start > stop || start < 0 || stop < 0) throw new IllegalArgumentException("One or more arguments are invalid");
+		
+		if(start > text.length()) clipboard.setText("");
+		
+		if(stop > text.length()) clipboard.setText(text.substring(start));;
+		
+		clipboard.setText(text.substring(start, stop));;
         String btext = text.substring(0,start)+text.substring(stop);
         String ctext = text.substring(start,stop);
         buffer.setText(btext);
         clipboard.setText(ctext);
+    
     }
 
     /**
@@ -69,12 +85,20 @@ public class EngineImpl implements Engine {
      * into the clipboard.
      */
     @Override
-    public void copySelectedText() {
-        int start = selection.getBeginIndex();
+    public void copySelectedText() throws IndexOutOfBoundsException{
+        
+    	int start = selection.getBeginIndex();
         int stop = selection.getEndIndex();
         String text = buffer.getText();
-        String ctext = text.substring(start,stop);
-        clipboard.setText(ctext);
+        
+        if(start > stop || start < 0 || stop < 0) throw new IllegalArgumentException("One or more arguments are invalid");
+		
+		if(start > text.length()) clipboard.setText("");
+		
+		if(stop > text.length()) clipboard.setText(text.substring(start));;
+		
+		clipboard.setText(text.substring(start, stop));;
+    
     }
 
     /**
@@ -82,12 +106,31 @@ public class EngineImpl implements Engine {
      * the contents of the clipboard.
      */
     @Override
-    public void pasteClipboard() {
-        int start = selection.getBeginIndex();
+    public void pasteClipboard() throws IndexOutOfBoundsException{
+        
+    	int start = selection.getBeginIndex();
         int stop = selection.getEndIndex();
         String text = buffer.getText();
-        String btext = text.substring(0,start) + clipboard.getText() +text.substring(stop);
-        buffer.setText(btext);
+        
+        if( stop < start || stop < 0 || start < 0) throw new IndexOutOfBoundsException("Values are not valid");
+		
+		if( text.length() <= start || text.length() == 0) {
+			
+			buffer.setText(text + clipboard.getText());
+			
+		}else if (text.length() <= stop){
+		
+			String splitString = text.substring(0, start);
+			buffer.setText(splitString + clipboard.getText());
+		
+		}else{
+			
+		    String btext = text.substring(0,start) + clipboard.getText() +text.substring(stop);
+		    buffer.setText(btext);
+        
+		}
+        
+  
 
     }
 
@@ -97,23 +140,57 @@ public class EngineImpl implements Engine {
      * @param s the text to insert
      */
     @Override
-    public void insert(String s) {
-        int start = selection.getBeginIndex();
+    public void insert(String s) throws IndexOutOfBoundsException{
+        
+    	int start = selection.getBeginIndex();
         int stop = selection.getEndIndex();
         String text = buffer.getText();
+        
+        if( stop < start || stop < 0 || start < 0) throw new IndexOutOfBoundsException("Values are not valid");
+		
+		if( text.length() <= start || text.length() == 0) {
+			
+			buffer.setText(text + s);
+			
+		}else if (text.length() <= stop){
+		
+			String splitString = text.substring(0, start);
+			buffer.setText(splitString + s);
+		
+		}else{
+			
         String btext = text.substring(0,start) + s +text.substring(stop);
         buffer.setText(btext);
+        
+		}
     }
 
     /**
      * Removes the contents of the selection in the buffer
      */
     @Override
-    public void delete() {
-        int start = selection.getBeginIndex();
-        int stop = selection.getEndIndex();
+    public void delete() throws IndexOutOfBoundsException{
+        
+    	int start = selection.getBeginIndex();
+        int stop = selection.getEndIndex();        
         String text = buffer.getText();
-        String btext = text.substring(0,start)+text.substring(stop);
-        buffer.setText(btext);
+        
+        if( stop < start || stop < 0 || start < 0) throw new IndexOutOfBoundsException("Values are not valid");
+		
+		if( text.length() <= start || text.length() == 0) {
+			
+			return;
+			
+		}else if (text.length() <= stop){
+		
+			String splitString = text.substring(0, start);
+			buffer.setText(splitString);
+		
+		}else{
+			
+			String btext = text.substring(0,start)+text.substring(stop);
+	        buffer.setText(btext);	
+        
+		}
     }
 }

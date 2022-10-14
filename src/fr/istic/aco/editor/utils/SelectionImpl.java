@@ -32,12 +32,13 @@ public class SelectionImpl implements Selection {
     }
 
     @Override
-    public void setBeginIndex(int beginIndex) {
+    public void setBeginIndex(int beginIndex){
+    	
         this.beginIndex = beginIndex;
     }
 
     @Override
-    public void setEndIndex(int endIndex) {
+    public void setEndIndex(int endIndex){
         this.endIndex = endIndex;
     }
 
