@@ -9,6 +9,8 @@ public class SelectionImpl implements Selection {
 
     public SelectionImpl(int bufferId) {
         this.bufferId = beginIndex;
+        this.beginIndex = 0;
+        this.endIndex = 0;
     }
 
     @Override
@@ -32,13 +34,14 @@ public class SelectionImpl implements Selection {
     }
 
     @Override
-    public void setBeginIndex(int beginIndex){
-    	
+    public void setBeginIndex(int beginIndex) throws IndexOutOfBoundsException{
+    	if(beginIndex < 0) throw new IndexOutOfBoundsException("One or more arguments are invalid");
         this.beginIndex = beginIndex;
     }
 
     @Override
     public void setEndIndex(int endIndex){
+    	if(endIndex < 0) throw new IndexOutOfBoundsException("One or more arguments are invalid");
         this.endIndex = endIndex;
     }
 
