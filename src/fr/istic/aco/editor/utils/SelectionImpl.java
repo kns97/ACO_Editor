@@ -5,10 +5,10 @@ import fr.istic.aco.editor.Selection;
 public class SelectionImpl implements Selection {
     private int beginIndex;
     private int endIndex;
-    private int bufferId;
+    private Buffer buffer;
 
-    public SelectionImpl(int bufferId) {
-        this.bufferId = beginIndex;
+    public SelectionImpl(Buffer buffer) {
+        this.buffer = buffer;
         this.beginIndex = 0;
         this.endIndex = 0;
     }
@@ -30,28 +30,28 @@ public class SelectionImpl implements Selection {
 
     @Override
     public int getBufferEndIndex() {
-        return 0;
+        return buffer.getText().length()-1;
     }
 
     @Override
     public void setBeginIndex(int beginIndex) throws IndexOutOfBoundsException{
-    	if(beginIndex < 0) throw new IndexOutOfBoundsException("One or more arguments are invalid");
+    	if(beginIndex < 0 || beginIndex > this.getBufferEndIndex()) throw new IndexOutOfBoundsException("One or more arguments are invalid");
         this.beginIndex = beginIndex;
     }
 
     @Override
     public void setEndIndex(int endIndex){
-    	if(endIndex < 0) throw new IndexOutOfBoundsException("One or more arguments are invalid");
+    	if(endIndex < 0 || endIndex < this.getBufferBeginIndex()) throw new IndexOutOfBoundsException("One or more arguments are invalid");
         this.endIndex = endIndex;
     }
 
     @Override
-    public void setBufferId(int bufferId) {
-        this.bufferId = bufferId;
+    public void setBuffer(Buffer buffer) {
+        this.buffer = buffer;
     }
 
     @Override
-    public int getBufferId() {
-        return bufferId;
+    public Buffer getBuffer() {
+        return buffer;
     }
 }

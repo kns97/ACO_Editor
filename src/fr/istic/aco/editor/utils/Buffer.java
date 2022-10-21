@@ -1,5 +1,7 @@
 package fr.istic.aco.editor.utils;
 
+import fr.istic.aco.editor.Selection;
+
 public class Buffer {
     private String text;
     private int id;

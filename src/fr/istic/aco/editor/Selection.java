@@ -1,5 +1,7 @@
 package fr.istic.aco.editor;
 
+import fr.istic.aco.editor.utils.Buffer;
+
 /**
  * Provides access to selection control operations
  *
@@ -59,18 +61,15 @@ public interface Selection {
     /**
      * Changes the value of the end index of the selection
      *
-     * @param endIndex, must be within the buffer index range
-     * @throws IndexOutOfBoundsException if the beginIndex is out of bounds
+     * @param buffer, must exists
      */
-    void setBufferId(int bufferId);
+    void setBuffer(Buffer buffer);
 
     /**
      * Changes the value of the end index of the selection
      *
-     * @param endIndex, must be within the buffer index range
-     * @throws IndexOutOfBoundsException if the beginIndex is out of bounds
      */
-    int getBufferId();
+    Buffer getBuffer();
 
 
 
