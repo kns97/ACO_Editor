@@ -55,7 +55,7 @@ class EngineTest {
     
     
     @Test
-    @DisplayName("It is posible to establish an incompatible selection")
+    @DisplayName("It is possible to establish an incompatible selection")
     void setInvalidSelection() {
     	Selection sel = engine.getSelection();
     	sel.setBeginIndex(3);
