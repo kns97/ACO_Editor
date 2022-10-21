@@ -10,6 +10,7 @@ import fr.istic.aco.editor.utils.Buffer;
  */
 public interface Selection {
 
+
     /**
      * Provides the index of the first character designated
      * by the selection.

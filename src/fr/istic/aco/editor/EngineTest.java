@@ -31,10 +31,11 @@ class EngineTest {
     @DisplayName("Selection allows for modification of the indexes")
     void setValidSelection() {
     	Selection sel = engine.getSelection();
-    	sel.setBeginIndex(0);
-    	sel.setEndIndex(1);
-    	assertEquals(0, sel.getBeginIndex());
-    	assertEquals(1, sel.getEndIndex());
+    	engine.insert("this is a test");
+    	sel.setBeginIndex(2);
+    	sel.setEndIndex(3);
+    	assertEquals(2, sel.getBeginIndex());
+    	assertEquals(3, sel.getEndIndex());
     }
     
     @Test
@@ -53,49 +54,96 @@ class EngineTest {
 		assertEquals("One or more arguments are invalid", ex.getMessage());
     }
     
+    @Test
+    @DisplayName("Exception must be thrown for invalid selection beginIndex")
+    void setInvalidSelectionBegin() {
+    	Selection sel = engine.getSelection();
+    	IndexOutOfBoundsException ex = assertThrows(IndexOutOfBoundsException.class, ()->{sel.setBeginIndex(3);});
+    	assertEquals("One or more arguments are invalid", ex.getMessage());
+    }
     
     @Test
-    @DisplayName("It is possible to establish an incompatible selection")
-    void setInvalidSelection() {
+    @DisplayName("Exception must be thrown for invalid selection endIndex")
+    void setInvalidSelectionEnd() {
     	Selection sel = engine.getSelection();
-    	sel.setBeginIndex(3);
-    	sel.setEndIndex(1);
-    	assertEquals(3, sel.getBeginIndex());
-    	assertEquals(1, sel.getEndIndex());
+    	IndexOutOfBoundsException ex = assertThrows(IndexOutOfBoundsException.class, ()->{sel.setEndIndex(3);});
+    	assertEquals("One or more arguments are invalid", ex.getMessage());
     }
     
     @Test
     @DisplayName("Buffer must be empty after initialization")
     void getEmptySelection() {
-        Selection selection = engine.getSelection();
-        assertEquals(selection.getBufferBeginIndex(),selection.getBeginIndex());
         assertEquals("",engine.getBufferContents());
     }
     
     @Test
     @DisplayName("Clipboard must be empty after initialization")
-    void getEmptyClipboardContents() {
+    void getClipboardContentsEmpty() {
     	assertEquals("", engine.getClipboardContents());
     }
     
+
     @Test
+    @DisplayName("Buffer can be written from the engine")
+    void writeInBuffer() {
+    	engine.insert("This is a test");
+        assertEquals("This is a test",engine.getBufferContents());
+    }
     
-    void getBufferContents() {
-        todo();
-    }
-
+    
     @Test
-    void cutSelectedText() {
-        todo();
-    }
-
-    @Test
+    @DisplayName("Clipboard must get copied selection")
     void copySelectedText() {
-        todo();
+    	engine.insert("This is a test");
+    	Selection sel = engine.getSelection();
+    	sel.setBeginIndex(0);
+    	sel.setEndIndex(4);
+    	engine.copySelectedText();
+    	assertEquals("This", engine.getClipboardContents());
     }
+    
+    
+    @Test
+    @DisplayName("cutting should remove the selected section")
+    void cutSelectedText() {
+        engine.insert("This is a test");
+        Selection sel = engine.getSelection();
+        sel.setBeginIndex(0);
+        sel.setEndIndex(4);
+        engine.cutSelectedText();
+        assertEquals("This", engine.getClipboardContents());
+        assertEquals(" is a test", engine.getBufferContents());
+    }
+    
 
     @Test
+    @DisplayName("paste should add the clipboard into the selection")
     void pasteClipboard() {
-        todo();
+    	engine.insert("This is a test");
+        Selection sel = engine.getSelection();
+        sel.setBeginIndex(0);
+        sel.setEndIndex(4);
+        engine.cutSelectedText();
+        int index = engine.getBufferContents().length();
+        sel.setBeginIndex(index);
+        sel.setEndIndex(index);
+        engine.pasteClipboard();
+        assertEquals("This", engine.getClipboardContents());
+        assertEquals(" is a testThis", engine.getBufferContents());
     }
+    
+    @Test
+    @DisplayName("paste should add the clipboard into the selection")
+    void deleteSection() {
+    	engine.insert("This is a test");
+        Selection sel = engine.getSelection();
+        sel.setBeginIndex(0);
+        sel.setEndIndex(4);
+        engine.delete();
+        assertEquals(" is a test", engine.getBufferContents());
+    }
+    
+    
+    
+    
 }

@@ -30,7 +30,7 @@ public class SelectionImpl implements Selection {
 
     @Override
     public int getBufferEndIndex() {
-        return buffer.getText().length()-1;
+        return buffer.getText().length();
     }
 
     @Override
@@ -41,7 +41,7 @@ public class SelectionImpl implements Selection {
 
     @Override
     public void setEndIndex(int endIndex){
-    	if(endIndex < 0 || endIndex < this.getBufferBeginIndex()) throw new IndexOutOfBoundsException("One or more arguments are invalid");
+    	if(endIndex < 0 || endIndex > this.getBufferEndIndex()) throw new IndexOutOfBoundsException("One or more arguments are invalid");
         this.endIndex = endIndex;
     }
 

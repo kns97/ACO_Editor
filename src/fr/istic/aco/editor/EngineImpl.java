@@ -16,7 +16,7 @@ public class EngineImpl implements Engine {
 
     public EngineImpl(){
      
-    	buffer = new Buffer();
+    	buffer = new Buffer(0);
         selection = new SelectionImpl(buffer);
         clipboard = new Clipboard();
     
@@ -69,9 +69,9 @@ public class EngineImpl implements Engine {
 		
 		if(start > text.length()) clipboard.setText("");
 		
-		if(stop > text.length()) clipboard.setText(text.substring(start));
+		if(stop > text.length()) clipboard.setText(text.substring(start));;
 		
-		clipboard.setText(text.substring(start, stop));
+		clipboard.setText(text.substring(start, stop));;
         String btext = text.substring(0,start)+text.substring(stop);
         String ctext = text.substring(start,stop);
         buffer.setText(btext);
@@ -95,9 +95,9 @@ public class EngineImpl implements Engine {
 		
 		if(start > text.length()) clipboard.setText("");
 		
-		if(stop > text.length()) clipboard.setText(text.substring(start));
+		if(stop > text.length()) clipboard.setText(text.substring(start));;
 		
-		clipboard.setText(text.substring(start, stop));
+		clipboard.setText(text.substring(start, stop));;
     
     }
 
@@ -112,7 +112,7 @@ public class EngineImpl implements Engine {
         int stop = selection.getEndIndex();
         String text = buffer.getText();
         
-        if( stop < start || stop < 0 || start < 0) throw new IndexOutOfBoundsException("Values are not valid");
+        if( stop < start || stop < 0 || start < 0) throw new IndexOutOfBoundsException("One or more arguments are invalid");
 		
 		if( text.length() <= start || text.length() == 0) {
 			
