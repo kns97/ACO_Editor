@@ -1,13 +1,10 @@
 package fr.istic.aco.editor.utils;
 
-import fr.istic.aco.editor.Selection;
 
 public class Buffer {
     private String text;
-    private int id;
 
-    public Buffer(int id) {
-        this.id = id;
+    public Buffer() {
         this.text = "";
     }
 
@@ -19,11 +16,4 @@ public class Buffer {
         this.text = text;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 }
