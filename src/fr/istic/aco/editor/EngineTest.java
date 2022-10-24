@@ -15,9 +15,6 @@ class EngineTest {
     	engine = new EngineImpl();
         
     }
-
-    private void todo() {
-    }
     
     @Test
     @DisplayName("Selection has valid numbers upon initialization")

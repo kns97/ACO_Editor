@@ -16,7 +16,7 @@ public class EngineImpl implements Engine {
 
     public EngineImpl(){
      
-    	buffer = new Buffer(0);
+    	buffer = new Buffer();
         selection = new SelectionImpl(buffer);
         clipboard = new Clipboard();
     
