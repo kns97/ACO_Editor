@@ -17,7 +17,7 @@ public class SelectCmd implements Command{
         Scanner sc= new Scanner(System.in);
         System.out.print("Enter start of the selection: ");
         int start= sc.nextInt();
-        System.out.print("\nEnter start of the selection: ");
+        System.out.print("\nEnter end of the selection: ");
         int stop= sc.nextInt();
 
         this.engine.setSelection(start,stop);
