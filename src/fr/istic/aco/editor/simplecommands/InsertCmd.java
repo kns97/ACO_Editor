@@ -8,6 +8,8 @@ public class InsertCmd implements Command{
     private final GreetingsInvoker receiver;
     private Engine engine;
 
+
+
     public InsertCmd(GreetingsInvoker receiver,Engine e) {
         this.receiver = receiver;
         this.engine = e;
@@ -18,5 +20,6 @@ public class InsertCmd implements Command{
         System.out.print("Enter the text to insert: ");
         String string= sc.nextLine();
         this.engine.insert(string);
+
     }
 }
