@@ -59,4 +59,8 @@ public interface Engine {
     void delete();
 
     void setSelection(int start,int stop);
+
+    void startRecording();
+
+    void stopRecording();
 }
