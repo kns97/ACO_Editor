@@ -76,7 +76,7 @@ public class EngineImpl implements Engine {
         String ctext = text.substring(start,stop);
         buffer.setText(btext);
         clipboard.setText(ctext);
-    
+
     }
 
     /**
@@ -151,20 +151,17 @@ public class EngineImpl implements Engine {
 		if( text.length() <= start || text.length() == 0) {
 			
 			buffer.setText(text + s);
-            System.out.println("Buffer text updated to: " + buffer.getText() );
-			
+
 		}else if (text.length() <= stop){
 		
 			String splitString = text.substring(0, start);
 			buffer.setText(splitString + s);
-            System.out.println("Buffer text updated to: " + buffer.getText() );
-		
+
 		}else{
 			
         String btext = text.substring(0,start) + s +text.substring(stop);
         buffer.setText(btext);
-        System.out.println("Buffer text updated to: " + buffer.getText() );
-        
+
 		}
     }
 
@@ -201,6 +198,5 @@ public class EngineImpl implements Engine {
     public void setSelection(int start, int stop) {
         this.selection.setBeginIndex(start);
         this.selection.setEndIndex(stop);
-        System.out.println("Selected: " +this.selection.getBeginIndex() + " " + this.selection.getEndIndex());
     }
 }
