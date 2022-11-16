@@ -19,7 +19,7 @@ public class SelectCmd implements Command{
         int start= sc.nextInt();
         System.out.print("\nEnter end of the selection: ");
         int stop= sc.nextInt();
-
+        
         this.engine.setSelection(start,stop);
     }
 }
