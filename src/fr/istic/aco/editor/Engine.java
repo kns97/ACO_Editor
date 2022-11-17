@@ -1,5 +1,7 @@
 package fr.istic.aco.editor;
 
+import java.util.List;
+
 /**
  * Main API for the text editing engine
  *
@@ -63,4 +65,8 @@ public interface Engine {
     void startRecording();
 
     void stopRecording();
+
+    boolean isRecording();
+
+    List<String> replay();
 }
