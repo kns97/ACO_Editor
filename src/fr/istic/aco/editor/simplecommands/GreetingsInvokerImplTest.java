@@ -1,4 +1,4 @@
-package fr.istic.aco.editor.simplecommands.tests;
+package fr.istic.aco.editor.simplecommands;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -6,8 +6,6 @@ import org.mockito.Mockito;
 
 import fr.istic.aco.editor.Engine;
 import fr.istic.aco.editor.EngineImpl;
-import fr.istic.aco.editor.simplecommands.*;
-
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -56,14 +54,14 @@ public class GreetingsInvokerImplTest {
     @Test
     public void testSelectCmd() {
     	Logger.getGlobal().setLevel(Level.SEVERE);
+
+        Command select = Mockito.mock(SelectCmd.class);
+        in.addCommand("Select", select);
     	
     	String mockInput = String.format("Select%n");
         InputStream mockReadStream = new ByteArrayInputStream(mockInput.getBytes());
         in.setReadStream(mockReadStream);
     	
-        Command select = Mockito.mock(SelectCmd.class);
-        in.addCommand("Select", select);
-        
     	in.runInvokerLoop();
     	Mockito.verify(select).execute();
     }
@@ -71,13 +69,13 @@ public class GreetingsInvokerImplTest {
     @Test
     public void testCutCmd() {
     	Logger.getGlobal().setLevel(Level.SEVERE);
+
+    	Command cut = Mockito.mock(CutCmd.class);
+    	in.addCommand("Cut", cut);
     	
     	String mockInput = String.format("Cut%n");
     	InputStream mockReadStream = new ByteArrayInputStream(mockInput.getBytes());
     	in.setReadStream(mockReadStream);
-    	
-    	Command cut = Mockito.mock(CutCmd.class);
-    	in.addCommand("Cut", cut);
     	
     	in.runInvokerLoop();
     	Mockito.verify(cut).execute();
@@ -86,13 +84,13 @@ public class GreetingsInvokerImplTest {
     @Test
     public void testInsertCmd() {
     	Logger.getGlobal().setLevel(Level.SEVERE);
+
+    	Command insert = Mockito.mock(InsertCmd.class);
+    	in.addCommand("Insert", insert);
     	
     	String mockInput = String.format("Insert%n");
     	InputStream mockReadStream = new ByteArrayInputStream(mockInput.getBytes());
     	in.setReadStream(mockReadStream);
-    	
-    	Command insert = Mockito.mock(InsertCmd.class);
-    	in.addCommand("Insert", insert);
     	
     	in.runInvokerLoop();
     	Mockito.verify(insert).execute();
@@ -101,13 +99,13 @@ public class GreetingsInvokerImplTest {
     @Test
     public void testPasteCmd() {
     	Logger.getGlobal().setLevel(Level.SEVERE);
+
+    	Command paste = Mockito.mock(PasteCmd.class);
+    	in.addCommand("Paste", paste);
     	
     	String mockInput = String.format("Paste%n");
     	InputStream mockReadStream = new ByteArrayInputStream(mockInput.getBytes());
     	in.setReadStream(mockReadStream);
-    	
-    	Command paste = Mockito.mock(PasteCmd.class);
-    	in.addCommand("Paste", paste);
     	
     	in.runInvokerLoop();
     	Mockito.verify(paste).execute();
@@ -117,12 +115,12 @@ public class GreetingsInvokerImplTest {
     public void testPrintCmd() {
     	Logger.getGlobal().setLevel(Level.SEVERE);
     	
+    	Command print = Mockito.mock(PrintCmd.class);
+    	in.addCommand("Print", print);
+    	
     	String mockInput = String.format("Print%n");
     	InputStream mockReadStream = new ByteArrayInputStream(mockInput.getBytes());
     	in.setReadStream(mockReadStream);
-    	
-    	Command print = Mockito.mock(PrintCmd.class);
-    	in.addCommand("Print", print);
     	
     	in.runInvokerLoop();
     	Mockito.verify(print).execute();
@@ -132,12 +130,12 @@ public class GreetingsInvokerImplTest {
     public void testCopyCmd() {
     	Logger.getGlobal().setLevel(Level.SEVERE);
     	
+    	Command copy = Mockito.mock(CopyCmd.class);
+    	in.addCommand("Copy", copy);
+    	
     	String mockInput = String.format("Copy%n");
     	InputStream mockReadStream = new ByteArrayInputStream(mockInput.getBytes());
     	in.setReadStream(mockReadStream);
-    	
-    	Command copy = Mockito.mock(CopyCmd.class);
-    	in.addCommand("Copy", copy);
     	
     	in.runInvokerLoop();
     	Mockito.verify(copy).execute();
