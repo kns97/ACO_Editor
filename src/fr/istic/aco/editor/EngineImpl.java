@@ -262,7 +262,6 @@ public class EngineImpl implements Engine {
 
     @Override
     public List<String> replay() {
-        List<String> commands = record.getCommands();
-        return commands;
+        return this.record.getCommands();
     }
 }
