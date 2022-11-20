@@ -44,6 +44,7 @@ public class GreetingsConfigurator {
         invoker.addCommand("Insert", new InsertCmd(invoker,e));
         invoker.addCommand("Select", new SelectCmd(invoker,e));
         invoker.addCommand("Print", new PrintCmd(receiver,e));
+        invoker.addCommand("Delete", new DeleteCmd(invoker, e));
         // An example of Java 8 lambdas
         invoker.addCommand("Test", () -> System.err.println("Test : "+this.toString()));
 

@@ -1,4 +1,4 @@
-package fr.istic.aco.editor.simplecommands;
+package fr.istic.aco.editor.tests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -6,6 +6,19 @@ import org.mockito.Mockito;
 
 import fr.istic.aco.editor.Engine;
 import fr.istic.aco.editor.EngineImpl;
+import fr.istic.aco.editor.simplecommands.Command;
+import fr.istic.aco.editor.simplecommands.CopyCmd;
+import fr.istic.aco.editor.simplecommands.CutCmd;
+import fr.istic.aco.editor.simplecommands.DeleteCmd;
+import fr.istic.aco.editor.simplecommands.GreetingsInvoker;
+import fr.istic.aco.editor.simplecommands.GreetingsInvokerImpl;
+import fr.istic.aco.editor.simplecommands.InsertCmd;
+import fr.istic.aco.editor.simplecommands.PasteCmd;
+import fr.istic.aco.editor.simplecommands.PrintCmd;
+import fr.istic.aco.editor.simplecommands.SelectCmd;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -17,7 +30,7 @@ public class GreetingsInvokerImplTest {
 	
 	private GreetingsInvoker in;
 	
-	@BeforeEach
+	@BeforeEach 
 	void setUp() throws Exception {
 		this.in = new GreetingsInvokerImpl();
 	}
@@ -49,6 +62,25 @@ public class GreetingsInvokerImplTest {
         in.runInvokerLoop();
         Mockito.verify(mockCmd).execute();
     	
+    }
+    
+    @Test
+    public void InvokerParameters() {
+    	Command mockCmd = Mockito.mock(Command.class);
+    	IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, ()->{in.addCommand(null, mockCmd);});
+    	assertEquals("null parameter", ex.getMessage());
+    }
+    
+    @Test
+    public void InvokerParameters2() {
+    	IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, ()->{in.addCommand("KeyWord", null);});
+    	assertEquals("null parameter", ex.getMessage());
+    }
+    
+    @Test
+    public void InvokerInputStream() {
+    	IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, ()->{in.setReadStream(null);});
+    	assertEquals("null inputStream", ex.getMessage());
     }
     
     @Test
@@ -139,6 +171,21 @@ public class GreetingsInvokerImplTest {
     	
     	in.runInvokerLoop();
     	Mockito.verify(copy).execute();
+    }
+    
+    @Test
+    public void testDeleteCmd() {
+    	Logger.getGlobal().setLevel(Level.SEVERE);
+    	
+    	Command delete = Mockito.mock(DeleteCmd.class);
+    	in.addCommand("Delete", delete);
+    	
+    	String mockInput = String.format("Delete%n");
+    	InputStream mockReadStream = new ByteArrayInputStream(mockInput.getBytes());
+    	in.setReadStream(mockReadStream);
+    	
+    	in.runInvokerLoop();
+    	Mockito.verify(delete).execute();
     }
     
 }

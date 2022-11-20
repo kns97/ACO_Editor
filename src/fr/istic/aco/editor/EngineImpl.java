@@ -67,9 +67,9 @@ public class EngineImpl implements Engine {
         
         if(start > stop || start < 0 || stop < 0) throw new IllegalArgumentException("One or more arguments are invalid");
 		
-		if(start > text.length()) clipboard.setText("");
+		if(start >= text.length()) clipboard.setText("");
 		
-		if(stop > text.length()) clipboard.setText(text.substring(start));;
+		if(stop >= text.length()) clipboard.setText(text.substring(start));;
 		
 		clipboard.setText(text.substring(start, stop));;
         String btext = text.substring(0,start)+text.substring(stop);
