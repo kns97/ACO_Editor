@@ -1,10 +1,8 @@
 package fr.istic.aco.editor;
 
-import fr.istic.aco.editor.utils.Buffer;
-import fr.istic.aco.editor.utils.Clipboard;
-import fr.istic.aco.editor.utils.RecordImpl;
-import fr.istic.aco.editor.utils.SelectionImpl;
+import fr.istic.aco.editor.utils.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EngineImpl implements Engine {
@@ -14,12 +12,18 @@ public class EngineImpl implements Engine {
     private Clipboard clipboard;
     private Record record;
 
+    private HistoryManager history;
+
+
     public EngineImpl(){
      
     	buffer = new Buffer();
         selection = new SelectionImpl(buffer);
         clipboard = new Clipboard();
         record = new RecordImpl();
+        history = new HistoryManager();
+
+        history.addBuffer(new Buffer(""));
 
     }
     /**
@@ -65,7 +69,7 @@ public class EngineImpl implements Engine {
      */
     @Override
     public void cutSelectedText() throws IndexOutOfBoundsException{
-        
+
     	int start = selection.getBeginIndex();
         int stop = selection.getEndIndex();
         String text = buffer.getText();
@@ -85,7 +89,10 @@ public class EngineImpl implements Engine {
         if(isRecording()){
             record.setCommands("cutSelectedText");
         }
-    
+        HistoryHandler();
+
+
+
     }
 
     /**
@@ -120,7 +127,6 @@ public class EngineImpl implements Engine {
      */
     @Override
     public void pasteClipboard() throws IndexOutOfBoundsException{
-        
     	int start = selection.getBeginIndex();
         int stop = selection.getEndIndex();
         String text = buffer.getText();
@@ -146,7 +152,7 @@ public class EngineImpl implements Engine {
         if(isRecording()){
             record.setCommands("pasteClipboard");
         }
-
+        HistoryHandler();
     }
 
     /**
@@ -156,7 +162,6 @@ public class EngineImpl implements Engine {
      */
     @Override
     public void insert(String s) throws IndexOutOfBoundsException{
-        
     	int start = selection.getBeginIndex();
         int stop = selection.getEndIndex();
         String text = buffer.getText();
@@ -182,9 +187,13 @@ public class EngineImpl implements Engine {
         
 		}
 
+        HistoryHandler();
+
         if(isRecording()){
             record.setCommands("insert");
         }
+
+
     }
 
     /**
@@ -214,6 +223,7 @@ public class EngineImpl implements Engine {
 	        buffer.setText(btext);	
         
 		}
+        HistoryHandler();
 
         if(isRecording()){
             record.setCommands("delete");
@@ -263,5 +273,31 @@ public class EngineImpl implements Engine {
     @Override
     public List<String> replay() {
         return this.record.getCommands();
+    }
+
+    @Override
+    public void undo() {
+        Buffer previous = history.getPreviousBuffer();
+        if(previous != null)
+            this.setBuffer(new Buffer(previous.getText()));
+    }
+
+    @Override
+    public void redo() {
+        Buffer next = history.getNextBuffer();
+        if(next != null)
+            this.setBuffer(new Buffer(next.getText()));
+    }
+
+    @Override
+    public void setBuffer(Buffer b) {
+        this.buffer = b;
+    }
+
+    @Override
+    public void HistoryHandler() {
+        history.addBuffer(buffer);
+        this.setBuffer(new Buffer(buffer.getText()));
+
     }
 }

@@ -7,6 +7,9 @@ public class Buffer {
     public Buffer() {
         this.text = "";
     }
+    public Buffer(String s) {
+        this.text = s;
+    }
 
     public String getText() {
         return text;

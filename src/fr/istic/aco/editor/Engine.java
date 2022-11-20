@@ -1,5 +1,7 @@
 package fr.istic.aco.editor;
 
+import fr.istic.aco.editor.utils.Buffer;
+
 import java.util.List;
 
 /**
@@ -69,4 +71,11 @@ public interface Engine {
     boolean isRecording();
 
     List<String> replay();
+
+    void undo();
+    void redo();
+
+    void setBuffer(Buffer b);
+
+    void HistoryHandler();
 }
