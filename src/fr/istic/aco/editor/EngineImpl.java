@@ -300,4 +300,9 @@ public class EngineImpl implements Engine {
         this.setBuffer(new Buffer(buffer.getText()));
 
     }
+    public HistoryManager getHistory(){
+        return history;
+    }
+
+
 }

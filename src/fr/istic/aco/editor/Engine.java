@@ -1,6 +1,7 @@
 package fr.istic.aco.editor;
 
 import fr.istic.aco.editor.utils.Buffer;
+import fr.istic.aco.editor.utils.HistoryManager;
 
 import java.util.List;
 
@@ -78,4 +79,6 @@ public interface Engine {
     void setBuffer(Buffer b);
 
     void HistoryHandler();
+
+    HistoryManager getHistory();
 }
