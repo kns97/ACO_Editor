@@ -9,6 +9,7 @@ import fr.istic.aco.editor.EngineImpl;
 import fr.istic.aco.editor.simplecommands.Command;
 import fr.istic.aco.editor.simplecommands.CopyCmd;
 import fr.istic.aco.editor.simplecommands.CutCmd;
+import fr.istic.aco.editor.simplecommands.DeleteCmd;
 import fr.istic.aco.editor.simplecommands.GreetingsInvoker;
 import fr.istic.aco.editor.simplecommands.GreetingsInvokerImpl;
 import fr.istic.aco.editor.simplecommands.GreetingsReceiver;
@@ -92,6 +93,22 @@ public class CmdTests {
 		Command cmd = new PasteCmd(this.invoker, this.e);
 		cmd.execute();
 		assertEquals("This is a testThis", e.getBufferContents());
+	}
+	
+	@Test
+	void DeleteCmdTest() {
+		e.insert("This is a test");
+		e.setSelection(0, 4);
+		Command cmd = new DeleteCmd(this.invoker, this.e);
+		cmd.execute();
+		assertEquals(" is a test", e.getBufferContents());
+	}
+	
+	@Test
+	void PrintCmdTest() {
+		e.insert("This is a test");
+		Command cmd = new PrintCmd(this.receiver, this.e);
+		
 	}
 	
 }
