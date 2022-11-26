@@ -1,6 +1,6 @@
 package fr.istic.aco.editor;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Main API for the text editing engine
@@ -68,5 +68,5 @@ public interface Engine {
 
     boolean isRecording();
 
-    List<String> replay();
+    ArrayList<String> replay();
 }

@@ -1,6 +1,6 @@
 package fr.istic.aco.editor;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface Record {
     void startRecord();
@@ -9,6 +9,6 @@ public interface Record {
 
     boolean getRecordFlag();
 
-    void setCommands(String commands);
-    List<String> getCommands();
+    void setCommands(String command);
+    ArrayList<String> getCommands();
 }

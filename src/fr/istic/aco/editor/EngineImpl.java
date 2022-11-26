@@ -5,7 +5,7 @@ import fr.istic.aco.editor.utils.Clipboard;
 import fr.istic.aco.editor.utils.RecordImpl;
 import fr.istic.aco.editor.utils.SelectionImpl;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class EngineImpl implements Engine {
 
@@ -83,7 +83,7 @@ public class EngineImpl implements Engine {
         clipboard.setText(ctext);
 
         if(isRecording()){
-            record.setCommands("cutSelectedText");
+            record.setCommands("Cut: "+clipboard.getText());
         }
     
     }
@@ -109,7 +109,7 @@ public class EngineImpl implements Engine {
 		clipboard.setText(text.substring(start, stop));
 
         if(isRecording()){
-            record.setCommands("copySelectedText");
+            record.setCommands("copySelectedText: "+ clipboard.getText());
         }
     
     }
@@ -144,7 +144,7 @@ public class EngineImpl implements Engine {
 		}
 
         if(isRecording()){
-            record.setCommands("pasteClipboard");
+            record.setCommands("PasteClipboard: "+ clipboard.getText());
         }
 
     }
@@ -183,7 +183,7 @@ public class EngineImpl implements Engine {
 		}
 
         if(isRecording()){
-            record.setCommands("insert");
+            record.setCommands("Insert: "+s);
         }
     }
 
@@ -196,27 +196,22 @@ public class EngineImpl implements Engine {
     	int start = selection.getBeginIndex();
         int stop = selection.getEndIndex();        
         String text = buffer.getText();
+        String splitString="";
         
         if( stop < start || stop < 0 || start < 0) throw new IndexOutOfBoundsException("Values are not valid");
 		
 		if( text.length() <= start || text.length() == 0) {
-			
 			return;
-			
 		}else if (text.length() <= stop){
-		
-			String splitString = text.substring(0, start);
-			buffer.setText(splitString);
-		
+            splitString = text.substring(0, start);
+            buffer.setText(splitString);
 		}else{
-			
-			String btext = text.substring(0,start)+text.substring(stop);
-	        buffer.setText(btext);	
-        
+            splitString = text.substring(0,start)+text.substring(stop);
+            buffer.setText(splitString);
 		}
 
         if(isRecording()){
-            record.setCommands("delete");
+            record.setCommands("delete: "+splitString);
         }
     }
 
@@ -227,7 +222,7 @@ public class EngineImpl implements Engine {
         System.out.println("Selected: " +this.selection.getBeginIndex() + " " + this.selection.getEndIndex());
 
         if(isRecording()){
-            record.setCommands("setSelection");
+            record.setCommands("setSelection: "+this.selection.getBeginIndex() + " " + this.selection.getEndIndex());
         }
     }
 
@@ -257,11 +252,10 @@ public class EngineImpl implements Engine {
     /**
      * Provides the recorded contents
      *
-     * @return a copy of the record's contents
+     * @return a copy of the record's contents in format  « command:buffertext »
      */
-
     @Override
-    public List<String> replay() {
+    public ArrayList<String> replay() {
         return this.record.getCommands();
     }
 }
