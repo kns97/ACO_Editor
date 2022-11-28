@@ -49,20 +49,20 @@ public class CmdTests {
 		System.setIn(in);
 		Command cmd = new InsertCmd(this.invoker, this.e);
 		cmd.execute();
-		assertEquals("Enter the text to insert: ", out.toString());
+		assertEquals("Enter the text to insert: Buffer text updated to: This is a test\n", out.toString());
 		assertEquals("This is a test", e.getBufferContents());
 	}
 	
 	@Test
 	void selectCmdTest() {
-		e.insert("This is a test");
-		in = new ByteArrayInputStream(String.format("0%n4%n").getBytes());
+		//e.insert("This is a test");
+		in = new ByteArrayInputStream(String.format("0%n0%n").getBytes());
 		System.setIn(in);
 		Command cmd = new SelectCmd(this.invoker, this.e);
 		cmd.execute();
-		assertEquals("Enter start of the selection: Enter end of the selection: ", out.toString());
+		assertEquals("Enter start of the selection: \nEnter end of the selection: Selected: 0 0\n", out.toString());
 		assertEquals(0, e.getSelection().getBeginIndex());
-		assertEquals(4, e.getSelection().getEndIndex());
+		assertEquals(0, e.getSelection().getEndIndex());
 	}
 	
 	@Test
