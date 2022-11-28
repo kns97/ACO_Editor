@@ -3,20 +3,15 @@ package fr.istic.aco.editor.simplecommands;
 import fr.istic.aco.editor.Engine;
 
 public class DeleteCmd implements Command{
-	private Engine e;
-	private GreetingsInvoker invoker;
-	
-	public DeleteCmd(GreetingsInvoker invoker,Engine e) {
-		this.e = e;
-		this.invoker = invoker;
+	private final GreetingsInvoker receiver;
+	private Engine engine;
+
+	public DeleteCmd(GreetingsInvoker receiver,Engine e) {
+		this.receiver = receiver;
+	    this.engine = e;
 	}
-	
-	
-	
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-		
+	    this.engine.delete();
 	}
-
 }
