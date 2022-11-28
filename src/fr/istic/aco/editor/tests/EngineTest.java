@@ -9,6 +9,8 @@ import fr.istic.aco.editor.Selection;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+
 class EngineTest {
 
     private Engine engine;
@@ -220,7 +222,105 @@ class EngineTest {
         assertEquals(" is a test", engine.getBufferContents());
     }
     
+    @Test
+    void recordInsert() {
+    	engine.startRecording();
+    	engine.insert("This is a test");
+    	engine.stopRecording();
+    	ArrayList<String> test = engine.replay();
+    	for(String value: test) {
+    		assertEquals("Insert: This is a test", value);
+    	}
+    }
     
+    @Test
+    void recordSelect() {
+    	engine.insert("This is a test");
+    	engine.startRecording();
+    	engine.setSelection(0,4);
+    	engine.stopRecording();
+    	ArrayList<String> test = engine.replay();
+    	for(String value: test) {
+    		assertEquals("setSelection: 0 4", value);
+    	}
+    }
     
+    @Test
+    void recordCut() {
+    	engine.insert("This is a test");
+    	engine.setSelection(0, 4);
+    	engine.startRecording();
+    	engine.cutSelectedText();
+    	engine.stopRecording();
+    	ArrayList<String> test = engine.replay();
+    	for(String value: test) {
+    		assertEquals("Cut: This", value);
+    	}
+    }
+    
+    @Test
+    void recordCopy() {
+    	engine.insert("This is a test");
+    	engine.setSelection(0, 4);
+    	engine.startRecording();
+    	engine.copySelectedText();
+    	engine.stopRecording();
+    	ArrayList<String> test = engine.replay();
+    	for(String value: test) {
+    		assertEquals("copySelectedText: This", value);
+    	}
+    }
+    
+    @Test
+    void recordDelete() {
+    	engine.insert("This is a test");
+    	engine.setSelection(0, 4);
+    	engine.startRecording();
+    	engine.delete();
+    	engine.stopRecording();
+    	ArrayList<String> test = engine.replay();
+    	for(String value: test) {
+    		assertEquals("delete:  is a test", value);
+    	}
+    }
+    
+    @Test
+    void recordPaste() {
+    	engine.insert("This is a test");
+        engine.setSelection(0, 4);
+        engine.cutSelectedText();
+        engine.startRecording();
+        engine.pasteClipboard();
+        engine.stopRecording();
+        ArrayList<String> test = engine.replay();
+    	for(String value: test) {
+    		assertEquals("PasteClipboard: This", value);
+    	}
+    }
+    
+    @Test
+    void recordChain() {
+    	engine.startRecording();
+    	engine.insert("This is a test");
+    	engine.setSelection(0, 4);
+    	engine.copySelectedText();
+    	engine.cutSelectedText();
+    	engine.pasteClipboard();
+    	engine.delete();
+    	engine.stopRecording();
+    	ArrayList<String> test = engine.replay();
+    	String[] data = new String[6];
+    	data[0] = "Insert: This is a test";
+    	data[1] = "setSelection: 0 4";
+    	data[2] = "copySelectedText: This";
+    	data[3] = "Cut: This";
+    	data[4] = "PasteClipboard: This";
+    	data[5] = "delete: a test";
+    	int i = 0;
+    	for(String value : test) {
+    		assertEquals(data[i], value);
+    		i++;
+    	}
+    }
     
 }
