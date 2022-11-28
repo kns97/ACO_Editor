@@ -1,7 +1,11 @@
-package fr.istic.aco.editor.simplecommands;
+package fr.istic.aco.editor.tests;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import fr.istic.aco.editor.simplecommands.Command;
+import fr.istic.aco.editor.simplecommands.GreetingsInvoker;
+import fr.istic.aco.editor.simplecommands.GreetingsInvokerImpl;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
