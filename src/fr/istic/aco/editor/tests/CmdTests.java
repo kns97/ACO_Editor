@@ -49,12 +49,14 @@ public class CmdTests {
 		System.setIn(in);
 		Command cmd = new InsertCmd(this.invoker, this.e);
 		cmd.execute();
-		assertEquals("Enter the text to insert: ", out.toString());
+
+		assertEquals("Enter the text to insert: Buffer text updated to: This is a test\n", out.toString());
 		assertEquals("This is a test", e.getBufferContents());
 	}
 	
 	@Test
 	void selectCmdTest() {
+
 		e.insert("This is a test");
 		in = new ByteArrayInputStream(String.format("0%n4%n").getBytes());
 		System.setIn(in);

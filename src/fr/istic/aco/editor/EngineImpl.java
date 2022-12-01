@@ -2,26 +2,31 @@ package fr.istic.aco.editor;
 
 import fr.istic.aco.editor.utils.Buffer;
 import fr.istic.aco.editor.utils.Clipboard;
+import fr.istic.aco.editor.utils.RecordImpl;
 import fr.istic.aco.editor.utils.SelectionImpl;
 
+import java.util.ArrayList;
+
 public class EngineImpl implements Engine {
-    /**
-     * Provides access to the selection control object
-     *
-     * @return the selection object
-     */
+
     private Buffer buffer;
     private Selection selection;
     private Clipboard clipboard;
+    private Record record;
 
     public EngineImpl(){
      
     	buffer = new Buffer();
         selection = new SelectionImpl(buffer);
         clipboard = new Clipboard();
-    
-    }
+        record = new RecordImpl();
 
+    }
+    /**
+     * Provides access to the selection control object
+     *
+     * @return the selection object
+     */
     @Override
     public Selection getSelection() {
      
@@ -77,6 +82,9 @@ public class EngineImpl implements Engine {
         buffer.setText(btext);
         clipboard.setText(ctext);
 
+        if(isRecording()){
+            record.setCommands("Cut: "+clipboard.getText());
+        }
     }
 
     /**
@@ -95,9 +103,13 @@ public class EngineImpl implements Engine {
 		
 		if(start > text.length()) clipboard.setText("");
 		
-		if(stop > text.length()) clipboard.setText(text.substring(start));;
+		if(stop > text.length()) clipboard.setText(text.substring(start));
 		
-		clipboard.setText(text.substring(start, stop));;
+		clipboard.setText(text.substring(start, stop));
+
+        if(isRecording()){
+            record.setCommands("copySelectedText: "+ clipboard.getText());
+        }
     
     }
 
@@ -129,8 +141,10 @@ public class EngineImpl implements Engine {
 		    buffer.setText(btext);
         
 		}
-        
-  
+
+        if(isRecording()){
+            record.setCommands("PasteClipboard: "+ clipboard.getText());
+        }
 
     }
 
@@ -163,6 +177,10 @@ public class EngineImpl implements Engine {
         buffer.setText(btext);
 
 		}
+
+        if(isRecording()){
+            record.setCommands("Insert: "+s);
+        }
     }
 
     /**
@@ -174,29 +192,67 @@ public class EngineImpl implements Engine {
     	int start = selection.getBeginIndex();
         int stop = selection.getEndIndex();        
         String text = buffer.getText();
+        String splitString="";
         
         if( stop < start || stop < 0 || start < 0) throw new IndexOutOfBoundsException("Values are not valid");
 		
 		if( text.length() <= start || text.length() == 0) {
-			
 			return;
-			
 		}else if (text.length() <= stop){
-		
-			String splitString = text.substring(0, start);
-			buffer.setText(splitString);
-		
+            splitString = text.substring(0, start);
+            buffer.setText(splitString);
 		}else{
-			
-			String btext = text.substring(0,start)+text.substring(stop);
-	        buffer.setText(btext);	
-        
+            splitString = text.substring(0,start)+text.substring(stop);
+            buffer.setText(splitString);
 		}
+
+        if(isRecording()){
+            record.setCommands("delete: "+splitString);
+        }
     }
 
     @Override
     public void setSelection(int start, int stop) {
         this.selection.setBeginIndex(start);
         this.selection.setEndIndex(stop);
+
+        System.out.println("Selected: " +this.selection.getBeginIndex() + " " + this.selection.getEndIndex());
+
+        if(isRecording()){
+            record.setCommands("setSelection: "+this.selection.getBeginIndex() + " " + this.selection.getEndIndex());
+        }
+    }
+
+    /**
+     * Starts the record
+     */
+    public void startRecording() {
+        this.record.startRecord();
+    }
+
+    /**
+     * Stop the record
+     */
+    @Override
+    public void stopRecording() {
+        this.record.stopRecord();
+    }
+
+    /**
+     * Returns status of recording
+     */
+    @Override
+    public boolean isRecording() {
+        return this.record.getRecordFlag();
+    }
+
+    /**
+     * Provides the recorded contents
+     *
+     * @return a copy of the record's contents in format  « command:buffertext »
+     */
+    @Override
+    public ArrayList<String> replay() {
+        return this.record.getCommands();
     }
 }
