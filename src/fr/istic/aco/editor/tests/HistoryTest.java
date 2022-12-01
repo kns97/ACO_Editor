@@ -1,5 +1,6 @@
-package fr.istic.aco.editor;
+package fr.istic.aco.editor.tests;
 
+import fr.istic.aco.editor.EngineImpl;
 import fr.istic.aco.editor.utils.Buffer;
 import fr.istic.aco.editor.utils.HistoryManager;
 import org.junit.jupiter.api.DisplayName;
