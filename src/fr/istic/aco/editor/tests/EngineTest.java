@@ -1,7 +1,11 @@
-package fr.istic.aco.editor;
+package fr.istic.aco.editor.tests;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import fr.istic.aco.editor.Engine;
+import fr.istic.aco.editor.EngineImpl;
+import fr.istic.aco.editor.Selection;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,17 +26,18 @@ class EngineTest {
     	Selection sel = engine.getSelection();
     	assertEquals(0, sel.getBeginIndex());
     	assertEquals(0, sel.getEndIndex());
+    	assertEquals(0, sel.getBufferBeginIndex());
+    	assertEquals(0, sel.getBufferEndIndex());
+    	assertEquals("", sel.getBuffer().getText());
     }
     
     @Test
     @DisplayName("Selection allows for modification of the indexes")
     void setValidSelection() {
-    	Selection sel = engine.getSelection();
     	engine.insert("this is a test");
-    	sel.setBeginIndex(2);
-    	sel.setEndIndex(3);
-    	assertEquals(2, sel.getBeginIndex());
-    	assertEquals(3, sel.getEndIndex());
+    	engine.setSelection(2, 3);
+    	assertEquals(2, engine.getSelection().getBeginIndex());
+    	assertEquals(3, engine.getSelection().getEndIndex());
     }
     
     @Test
@@ -87,14 +92,74 @@ class EngineTest {
         assertEquals("This is a test",engine.getBufferContents());
     }
     
+    @Test
+    void insertRegularSelection() {
+    	engine.insert("This is a test");
+    	engine.setSelection(5, 7);
+    	engine.insert("has");
+    	assertEquals("This has a test", engine.getBufferContents());
+    }
+    
+    @Test
+    void insertEdgeStart() {
+    	engine.insert("This is a test");
+    	engine.setSelection(0, 4);
+    	engine.insert("That");
+    	assertEquals("That is a test", engine.getBufferContents());
+    }
+    
+    @Test
+    void insertEdgeEnd() {
+    	engine.insert("This is a test");
+    	engine.setSelection(10, 14);
+    	engine.insert("thing");
+    	assertEquals("This is a thing", engine.getBufferContents());
+    }
+    
+    @Test
+    void deleteRegularSelection() {
+    	engine.insert("This is a test");
+    	engine.setSelection(8, 10);
+    	engine.delete();
+    	assertEquals("This is test", engine.getBufferContents());
+    }
+    
+    @Test
+    void deleteEdgeStartStart() {
+    	engine.insert("This is a test");
+    	engine.setSelection(0, 5);
+    	engine.delete();
+    	assertEquals("is a test", engine.getBufferContents());
+    }
+    
+    @Test
+    void deleteEdgeEndStart() {
+    	engine.insert("This is a test");
+    	engine.setSelection(14, 14);
+    	engine.delete();
+    	assertEquals("This is a test", engine.getBufferContents());
+    }
+    
+    @Test
+    void deleteEdgeEnd() {
+    	engine.insert("This is a test");
+    	engine.setSelection(10, 14);
+    	engine.delete();
+    	assertEquals("This is a ", engine.getBufferContents());
+    }
+    
+    @Test
+    void deleteEmpty() {
+    	engine.delete();
+    }
+    
+    
     
     @Test
     @DisplayName("Clipboard must get copied selection")
     void copySelectedText() {
     	engine.insert("This is a test");
-    	Selection sel = engine.getSelection();
-    	sel.setBeginIndex(0);
-    	sel.setEndIndex(4);
+    	engine.setSelection(0, 4);
     	engine.copySelectedText();
     	assertEquals("This", engine.getClipboardContents());
     }
@@ -104,38 +169,53 @@ class EngineTest {
     @DisplayName("cutting should remove the selected section")
     void cutSelectedText() {
         engine.insert("This is a test");
-        Selection sel = engine.getSelection();
-        sel.setBeginIndex(0);
-        sel.setEndIndex(4);
+        engine.setSelection(0, 4);
         engine.cutSelectedText();
         assertEquals("This", engine.getClipboardContents());
         assertEquals(" is a test", engine.getBufferContents());
     }
     
-
+    @Test
+    void pasteRegularSelection() {
+    	engine.insert("This is a test");
+        engine.setSelection(0, 4);
+        engine.cutSelectedText();
+        engine.setSelection(5, 7);
+        engine.pasteClipboard();
+        assertEquals("This", engine.getClipboardContents());
+        assertEquals(" is aThisest", engine.getBufferContents());
+    }
+    
     @Test
     @DisplayName("paste should add the clipboard into the selection")
-    void pasteClipboard() {
+    void pasteedgeStart() {
     	engine.insert("This is a test");
-        Selection sel = engine.getSelection();
-        sel.setBeginIndex(0);
-        sel.setEndIndex(4);
+        engine.setSelection(0, 4);
         engine.cutSelectedText();
-        int index = engine.getBufferContents().length();
-        sel.setBeginIndex(index);
-        sel.setEndIndex(index);
+        int index = 10;
+        engine.setSelection(index, index);
         engine.pasteClipboard();
         assertEquals("This", engine.getClipboardContents());
         assertEquals(" is a testThis", engine.getBufferContents());
     }
     
     @Test
+    @DisplayName("paste test2")
+    void pasteEdgeEnd() {
+    	engine.insert("This is a test");
+        engine.setSelection(0, 4);
+        engine.cutSelectedText();
+        engine.setSelection(9, 10);
+        engine.pasteClipboard();
+        assertEquals("This", engine.getClipboardContents());
+        assertEquals(" is a tesThis", engine.getBufferContents());
+    }
+    
+    @Test
     @DisplayName("paste should add the clipboard into the selection")
     void deleteSection() {
     	engine.insert("This is a test");
-        Selection sel = engine.getSelection();
-        sel.setBeginIndex(0);
-        sel.setEndIndex(4);
+    	engine.setSelection(0, 4);
         engine.delete();
         assertEquals(" is a test", engine.getBufferContents());
     }
