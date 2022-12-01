@@ -1,6 +1,9 @@
 package fr.istic.aco.editor;
 
-import java.util.ArrayList;
+import fr.istic.aco.editor.utils.Buffer;
+import fr.istic.aco.editor.utils.HistoryManager;
+
+import java.util.List;
 
 /**
  * Main API for the text editing engine
@@ -68,5 +71,14 @@ public interface Engine {
 
     boolean isRecording();
 
-    ArrayList<String> replay();
+    List<String> replay();
+
+    void undo();
+    void redo();
+
+    void setBuffer(Buffer b);
+
+    void HistoryHandler();
+
+    HistoryManager getHistory();
 }
