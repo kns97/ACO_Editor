@@ -42,12 +42,12 @@ public class HistoryManager {
     }
     public Buffer getNextBuffer(){
         if(current_index+1 < history.size()){
-            System.out.println("Current index:" + current_index + " Size:"+history.size());
+            //System.out.println("Current index:" + current_index + " Size:"+history.size());
 
             current_index = current_index+1;
             return history.get(current_index);
         }else{
-            System.out.println("Current index:" + current_index + " Size:"+history.size());
+            //System.out.println("Current index:" + current_index + " Size:"+history.size());
 
             return null;
         }
