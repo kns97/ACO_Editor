@@ -11,7 +11,6 @@ public class EngineImpl implements Engine {
     private Selection selection;
     private Clipboard clipboard;
     private Record record;
-
     private HistoryManager history;
 
 
@@ -226,8 +225,6 @@ public class EngineImpl implements Engine {
     public void setSelection(int start, int stop) {
         this.selection.setBeginIndex(start);
         this.selection.setEndIndex(stop);
-
-        System.out.println("Selected: " +this.selection.getBeginIndex() + " " + this.selection.getEndIndex());
 
         if(isRecording()){
             record.setCommands("setSelection: "+this.selection.getBeginIndex() + " " + this.selection.getEndIndex());

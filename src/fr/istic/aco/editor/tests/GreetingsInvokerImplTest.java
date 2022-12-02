@@ -2,6 +2,7 @@ package fr.istic.aco.editor.tests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions.*;
 import org.mockito.Mockito;
 
 import fr.istic.aco.editor.Engine;
@@ -17,8 +18,6 @@ import fr.istic.aco.editor.simplecommands.PasteCmd;
 import fr.istic.aco.editor.simplecommands.PrintCmd;
 import fr.istic.aco.editor.simplecommands.SelectCmd;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
