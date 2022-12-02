@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 public class GreetingsReceiver {
 
     public void displayMessage(String msg) {
-        Logger.getGlobal().info(msg);
+
+        System.out.println(msg);
     }
 }

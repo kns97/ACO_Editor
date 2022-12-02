@@ -3,6 +3,7 @@ package fr.istic.aco.editor.simplecommands;
 import fr.istic.aco.editor.Engine;
 
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class PrintCmd implements Command{
     private final GreetingsReceiver receiver;
@@ -14,6 +15,11 @@ public class PrintCmd implements Command{
     }
     @Override
     public void execute() {
-        receiver.displayMessage(engine.getBufferContents());
+        try{
+            receiver.displayMessage(engine.getBufferContents());
+        }catch(Exception e){
+            Logger.getGlobal().info(e.toString());
+        }
+
     }
 }

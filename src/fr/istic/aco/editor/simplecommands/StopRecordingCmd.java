@@ -2,6 +2,8 @@ package fr.istic.aco.editor.simplecommands;
 
 import fr.istic.aco.editor.Engine;
 
+import java.util.logging.Logger;
+
 
 public class StopRecordingCmd implements Command {
         private final GreetingsInvoker receiver;
@@ -14,7 +16,11 @@ public class StopRecordingCmd implements Command {
 
         @Override
         public void execute() {
-            this.engine.stopRecording();
+            try{
+                this.engine.stopRecording();
+            }catch(Exception e){
+                Logger.getGlobal().info(e.toString());
+            }
         }
     }
 

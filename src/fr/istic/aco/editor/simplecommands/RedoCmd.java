@@ -2,6 +2,8 @@ package fr.istic.aco.editor.simplecommands;
 
 import fr.istic.aco.editor.Engine;
 
+import java.util.logging.Logger;
+
 public class RedoCmd implements Command{
     private final GreetingsInvoker receiver;
     private Engine engine;
@@ -12,6 +14,11 @@ public class RedoCmd implements Command{
     }
     @Override
     public void execute() {
-        this.engine.redo();
+
+        try{
+            this.engine.redo();
+        }catch(Exception e){
+            Logger.getGlobal().info(e.toString());
+        }
     }
 }

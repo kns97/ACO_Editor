@@ -62,7 +62,7 @@ public class CmdTests {
 		System.setIn(in);
 		Command cmd = new SelectCmd(this.invoker, this.e);
 		cmd.execute();
-		assertEquals("Enter start of the selection: Enter end of the selection: Selected: 0 4\n", out.toString());
+		assertEquals("Enter start of the selection: Enter end of the selection: ", out.toString());
 		assertEquals(0, e.getSelection().getBeginIndex());
 		assertEquals(4, e.getSelection().getEndIndex());
 	}

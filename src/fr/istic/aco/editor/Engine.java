@@ -79,7 +79,5 @@ public interface Engine {
 
     void setBuffer(Buffer b);
 
-    void HistoryHandler();
-
     HistoryManager getHistory();
 }

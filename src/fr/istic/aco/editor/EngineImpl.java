@@ -45,7 +45,12 @@ public class EngineImpl implements Engine {
     @Override
     public String getBufferContents() {
 
-        return buffer.getText();
+        String text = buffer.getText();
+
+        if(isRecording()){
+            record.setCommands("PrintBufferContents: "+text);
+        }
+        return text;
     
     }
 
@@ -283,8 +288,7 @@ public class EngineImpl implements Engine {
         this.buffer = b;
     }
 
-    @Override
-    public void HistoryHandler() {
+    private void HistoryHandler() {
         history.addBuffer(buffer);
         this.setBuffer(new Buffer(buffer.getText()));
 

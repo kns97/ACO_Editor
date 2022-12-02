@@ -2,6 +2,8 @@ package fr.istic.aco.editor.simplecommands;
 
 import fr.istic.aco.editor.Engine;
 
+import java.util.logging.Logger;
+
 public class CopyCmd implements Command{
     private final GreetingsInvoker receiver;
     private Engine engine;
@@ -13,6 +15,11 @@ public class CopyCmd implements Command{
 
     @Override
     public void execute() {
-        this.engine.copySelectedText();
+        try{
+            this.engine.copySelectedText();
+        }catch(Exception e){
+            Logger.getGlobal().info(e.toString());
+        }
+
     }
 }

@@ -2,6 +2,8 @@ package fr.istic.aco.editor.simplecommands;
 
 import fr.istic.aco.editor.Engine;
 
+import java.util.logging.Logger;
+
 public class DeleteCmd implements Command{
 	private final GreetingsInvoker receiver;
 	private Engine engine;
@@ -12,6 +14,10 @@ public class DeleteCmd implements Command{
 	}
 	@Override
 	public void execute() {
-	    this.engine.delete();
+		try{
+			this.engine.delete();
+		}catch(Exception e){
+			Logger.getGlobal().info(e.toString());
+		}
 	}
 }
