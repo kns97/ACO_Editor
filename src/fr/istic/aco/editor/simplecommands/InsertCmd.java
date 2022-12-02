@@ -17,6 +17,7 @@ public class InsertCmd implements Command{
     @Override
     public void execute() {
         Scanner sc= new Scanner(System.in);
+        //yes
         System.out.print("Enter the text to insert: ");
         String string= sc.nextLine();
         this.engine.insert(string);
