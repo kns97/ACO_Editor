@@ -3,6 +3,7 @@ package fr.istic.aco.editor;
 import fr.istic.aco.editor.utils.Buffer;
 import fr.istic.aco.editor.utils.HistoryManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -71,7 +72,7 @@ public interface Engine {
 
     boolean isRecording();
 
-    List<String> replay();
+    ArrayList<String> replay();
 
     void undo();
     void redo();
