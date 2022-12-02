@@ -2,6 +2,7 @@ package fr.istic.aco.editor.simplecommands;
 
 import fr.istic.aco.editor.Engine;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ReplayCmd implements Command {
     private final GreetingsReceiver receiver;
@@ -13,7 +14,7 @@ public class ReplayCmd implements Command {
     }
     @Override
     public void execute() {
-        ArrayList<String> commands = this.engine.replay();
+        List<String> commands = this.engine.replay();
         for(String s : commands){
             receiver.displayMessage(s);
         }

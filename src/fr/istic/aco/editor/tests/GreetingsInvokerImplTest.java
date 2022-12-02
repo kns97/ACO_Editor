@@ -17,8 +17,7 @@ import fr.istic.aco.editor.simplecommands.PasteCmd;
 import fr.istic.aco.editor.simplecommands.PrintCmd;
 import fr.istic.aco.editor.simplecommands.SelectCmd;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
