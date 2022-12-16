@@ -308,15 +308,17 @@ class EngineTest {
     	engine.cutSelectedText();
     	engine.pasteClipboard();
     	engine.delete();
+    	engine.getBufferContents();
     	engine.stopRecording();
     	List<String> test = engine.replay();
-    	String[] data = new String[6];
+    	String[] data = new String[7];
     	data[0] = "Insert: This is a test";
     	data[1] = "setSelection: 0 4";
     	data[2] = "copySelectedText: This";
     	data[3] = "Cut: This";
     	data[4] = "PasteClipboard: This";
     	data[5] = "delete: a test";
+    	data[6] = "PrintBufferContents: a test";
     	int i = 0;
     	for(String value : test) {
     		assertEquals(data[i], value);
@@ -324,7 +326,15 @@ class EngineTest {
     	}
     }
     
-    
+    @Test
+    void IndexOutOfBoundsNatural() {
+    	engine.insert("This is a test");
+    	engine.setSelection(10, 14);
+    	engine.cutSelectedText();
+    	engine.copySelectedText();
+    	engine.cutSelectedText();
+    	assertEquals("This is a ", engine.getBufferContents());
+    }
     
     
 }

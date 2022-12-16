@@ -2,7 +2,6 @@ package fr.istic.aco.editor.tests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import fr.istic.aco.editor.Engine;
 import fr.istic.aco.editor.EngineImpl;
@@ -16,16 +15,20 @@ import fr.istic.aco.editor.simplecommands.GreetingsReceiver;
 import fr.istic.aco.editor.simplecommands.InsertCmd;
 import fr.istic.aco.editor.simplecommands.PasteCmd;
 import fr.istic.aco.editor.simplecommands.PrintCmd;
+import fr.istic.aco.editor.simplecommands.RedoCmd;
+import fr.istic.aco.editor.simplecommands.ReplayCmd;
 import fr.istic.aco.editor.simplecommands.SelectCmd;
+import fr.istic.aco.editor.simplecommands.StartRecordingCmd;
+import fr.istic.aco.editor.simplecommands.StopRecordingCmd;
+import fr.istic.aco.editor.simplecommands.UndoCmd;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+
 
 public class CmdTests {
 	private Engine e;
@@ -110,7 +113,55 @@ public class CmdTests {
 	void PrintCmdTest() {
 		e.insert("This is a test");
 		Command cmd = new PrintCmd(this.receiver, this.e);
-		
+		cmd.execute();
+		assertEquals("This is a test\n", out.toString());
+	}
+	
+	@Test
+	void UndoCmdTest() {
+		e.insert("This is a test");
+		Command cmd = new UndoCmd(this.invoker, this.e);
+		cmd.execute();
+		assertEquals("", e.getBufferContents());
+	}
+	
+	@Test 
+	void RecordCmdTest() {
+		Command cmd1 = new StartRecordingCmd(this.invoker, this.e);
+		Command cmd2 = new StopRecordingCmd(this.invoker, this.e);
+		cmd1.execute();
+		e.insert("This is a test");
+		e.setSelection(0, 5);
+		e.cutSelectedText();
+		cmd2.execute();
+		ArrayList<String> history = e.replay();
+		int i = 0;
+		String[] cmds = {"Insert: This is a test", "setSelection: 0 5", "Cut: This "};
+		for(String rec : history) {
+			assertEquals(cmds[i], rec);
+			i++;
+		}
+	}
+	
+	@Test 
+	void RedoCmdTest() {
+		e.insert("This is a test");
+		e.undo();
+		Command cmd = new RedoCmd(this.invoker, this.e);
+		cmd.execute();
+		assertEquals("This is a test", e.getBufferContents());
+	}
+	
+	@Test
+	void ReplayCmdTest() {
+		Command cmd = new ReplayCmd(this.receiver, this.e);
+		e.startRecording();
+		e.insert("This is a test");
+		e.setSelection(0, 5);
+		e.cutSelectedText();
+		e.stopRecording();
+		cmd.execute();
+		assertEquals("Insert: This is a test\nsetSelection: 0 5\nCut: This \n", out.toString());
 	}
 	
 }

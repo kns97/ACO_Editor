@@ -80,16 +80,19 @@ public class EngineImpl implements Engine {
         
         if(start > stop || start < 0 || stop < 0) throw new IllegalArgumentException("One or more arguments are invalid");
 		
-		if(start >= text.length()) clipboard.setText("");
-		
-		if(stop >= text.length()) clipboard.setText(text.substring(start));;
-		
-		clipboard.setText(text.substring(start, stop));;
+		if(start >= text.length()) {
+			clipboard.setText("");
+			}
+		else if(stop >= text.length()) {
+			clipboard.setText(text.substring(start));;
+			buffer.setText(text.substring(0, start));
+		}
+		else {
         String btext = text.substring(0,start)+text.substring(stop);
         String ctext = text.substring(start,stop);
         buffer.setText(btext);
         clipboard.setText(ctext);
-
+		}
         if(isRecording()){
             record.setCommands("Cut: "+clipboard.getText());
         }
@@ -113,12 +116,17 @@ public class EngineImpl implements Engine {
         
         if(start > stop || start < 0 || stop < 0) throw new IllegalArgumentException("One or more arguments are invalid");
 		
-		if(start > text.length()) clipboard.setText("");
+		if(start >= text.length()) {
+			clipboard.setText("");
+		}
 		
-		if(stop > text.length()) clipboard.setText(text.substring(start));
+		else if(stop >= text.length()) {
+			clipboard.setText(text.substring(start));
+		}
+		else {
+			clipboard.setText(text.substring(start, stop));	
+		}
 		
-		clipboard.setText(text.substring(start, stop));
-
         if(isRecording()){
             record.setCommands("copySelectedText: "+ clipboard.getText());
         }
