@@ -4,15 +4,25 @@ import fr.istic.aco.editor.Engine;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-
+/**
+ * Replay command class
+ */
 public class ReplayCmd implements Command {
     private final GreetingsReceiver receiver;
     private Engine engine;
-
+    /**
+     * Constructor
+     * @param receiver receiver
+     * @param e engine
+     */
     public ReplayCmd(GreetingsReceiver receiver,Engine e) {
         this.receiver = receiver;
         this.engine = e;
     }
+
+    /**
+     * Execute the command
+     */
     @Override
     public void execute() {
         try {

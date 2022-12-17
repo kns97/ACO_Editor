@@ -15,7 +15,7 @@ public interface Selection {
      * Provides the index of the first character designated
      * by the selection.
      *
-     * @return
+     * @return the beginning index
      */
     int getBeginIndex();
 
@@ -59,16 +59,11 @@ public interface Selection {
      */
     void setEndIndex(int endIndex);
 
-    /**
-     * Changes the value of the end index of the selection
-     *
-     * @param buffer, must exists
-     */
-    void setBuffer(Buffer buffer);
+
 
     /**
      * Changes the value of the end index of the selection
-     *
+     * @return the current buffer
      */
     Buffer getBuffer();
 

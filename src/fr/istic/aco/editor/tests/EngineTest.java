@@ -12,6 +12,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Tests on the Engine
+ */
 class EngineTest {
 
     private Engine engine;

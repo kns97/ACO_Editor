@@ -5,6 +5,9 @@ import fr.istic.aco.editor.utils.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of the engine
+ */
 public class EngineImpl implements Engine {
 
     private Buffer buffer;
@@ -13,7 +16,9 @@ public class EngineImpl implements Engine {
     private Record record;
     private HistoryManager history;
 
-
+    /**
+     * Constructor
+     */
     public EngineImpl(){
      
     	buffer = new Buffer();
@@ -233,7 +238,11 @@ public class EngineImpl implements Engine {
             record.setCommands("delete: "+splitString);
         }
     }
-
+    /**
+     * Set the selection to start and end at certain indexes
+     * @param start beginning index of the selection
+     * @param stop ending index of the selection
+     */
     @Override
     public void setSelection(int start, int stop) {
         this.selection.setBeginIndex(start);
@@ -261,6 +270,7 @@ public class EngineImpl implements Engine {
 
     /**
      * Returns status of recording
+     * @return true if the recording is active, false otherwise
      */
     @Override
     public boolean isRecording() {
@@ -276,31 +286,45 @@ public class EngineImpl implements Engine {
     public ArrayList<String> replay() {
         return this.record.getCommands();
     }
-
+    /**
+     * Return to previous state in the buffer
+     */
     @Override
     public void undo() {
         Buffer previous = history.getPreviousBuffer();
         if(previous != null)
             this.setBuffer(new Buffer(previous.getText()));
     }
-
+    /**
+     * Forward to the next state in the buffer
+     */
     @Override
     public void redo() {
         Buffer next = history.getNextBuffer();
         if(next != null)
             this.setBuffer(new Buffer(next.getText()));
     }
-
+    /**
+     * Set a buffer object as the buffer used by the engine
+     * @param b buffer to be set
+     */
     @Override
     public void setBuffer(Buffer b) {
         this.buffer = b;
     }
 
+    /**
+     * Function to be executed every time the buffer is modified
+     */
     private void HistoryHandler() {
         history.addBuffer(buffer);
         this.setBuffer(new Buffer(buffer.getText()));
 
     }
+    /**
+     * Retrieve the history of states of the buffer
+     * @return the list of states of the buffer
+     */
     public HistoryManager getHistory(){
         return history;
     }

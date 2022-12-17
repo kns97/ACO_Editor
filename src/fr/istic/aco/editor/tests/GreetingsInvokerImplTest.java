@@ -24,7 +24,9 @@ import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+/**
+ * Tests on the Invoker
+ */
 public class GreetingsInvokerImplTest {
 	
 	private GreetingsInvoker in;

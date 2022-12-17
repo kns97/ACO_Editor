@@ -29,7 +29,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-
+/**
+ * Tests on the Commands
+ */
 public class CmdTests {
 	private Engine e;
 	private GreetingsInvoker invoker;

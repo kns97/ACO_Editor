@@ -17,6 +17,10 @@ public class GreetingsConfigurator {
     private GreetingsInvoker invoker;
     private GreetingsReceiver receiver;
 
+    /**
+     * Create the client instance
+     * @param lineArgs env
+     */
     public static void main(String lineArgs[]) {
 
         GreetingsConfigurator client = new GreetingsConfigurator();
@@ -24,6 +28,9 @@ public class GreetingsConfigurator {
 
     }
 
+    /**
+     * Run the main cli loop
+     */
     private void run() {
 
         Logger.getGlobal().info("Starting...");
@@ -34,6 +41,9 @@ public class GreetingsConfigurator {
         invoker.runInvokerLoop();
     }
 
+    /**
+     * Configure the commands to be used by the user
+     */
     private void configureCommands() {
         Engine e = new EngineImpl();
         invoker.addCommand("Quit", new QuitCmd(invoker));

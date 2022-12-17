@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests on the history (version3 feature)
+ */
 public class HistoryTest {
     private EngineImpl engine;
 

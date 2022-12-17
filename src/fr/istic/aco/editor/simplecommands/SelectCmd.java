@@ -4,16 +4,26 @@ import fr.istic.aco.editor.Engine;
 
 import java.util.Scanner;
 import java.util.logging.Logger;
-
+/**
+ * Select command class
+ */
 public class SelectCmd implements Command{
     private final GreetingsInvoker receiver;
     private Engine engine;
 
-
+    /**
+     * Constructor
+     * @param receiver receiver
+     * @param e engine
+     */
     public SelectCmd(GreetingsInvoker receiver,Engine e) {
         this.receiver = receiver;
         this.engine = e;
     }
+
+    /**
+     * Execute the program
+     */
     @Override
     public void execute() {
 

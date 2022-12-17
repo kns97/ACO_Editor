@@ -19,7 +19,9 @@ public class GreetingsInvokerImpl implements GreetingsInvoker{
     private boolean stopLoop = false;
     private InputStream inputStream;
     private BufferedReader bufferedReader;
-
+    /**
+     * Starts the reading of the read stream set by setReadStream operation
+     */
     @Override
     public void runInvokerLoop() {
         while (!stopLoop) {
@@ -39,12 +41,19 @@ public class GreetingsInvokerImpl implements GreetingsInvoker{
             }
         }
     }
-
+    /**
+     * Stops the read stream loop now.
+     */
     @Override
     public void stopLoop() {
         stopLoop = true;
     }
 
+    /**
+     * Read the input of the user
+     * @return
+     * @throws IOException
+     */
     private String readUserInput() throws IOException {
         return bufferedReader.readLine();
     }
@@ -63,7 +72,12 @@ public class GreetingsInvokerImpl implements GreetingsInvoker{
         }
         commands.put(keyword,cmd);
     }
-
+    /**
+     * Sets the read stream that be be used by runInvokerLoop
+     *
+     * @param inputStream the read stream
+     * @throws IllegalArgumentException if inputStream is null
+     */
     @Override
     public void setReadStream(InputStream inputStream) {
         if(inputStream == null) {
