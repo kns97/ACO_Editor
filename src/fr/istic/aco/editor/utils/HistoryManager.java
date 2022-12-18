@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public class HistoryManager {
     private ArrayList<Buffer> history;
     private int current_index;
-    private int size;
 
     /**
      * Constructor
@@ -16,7 +15,6 @@ public class HistoryManager {
     public HistoryManager(){
         history = new ArrayList<>();
         current_index = -1;
-        size = 0;
     }
 
     /**
